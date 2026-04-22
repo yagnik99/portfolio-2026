@@ -28,8 +28,12 @@ export default function Hero({ onConnect }: { onConnect: () => void }) {
             <Button onClick={onConnect} className="bg-blue-600 hover:bg-blue-700 px-8 py-6 text-lg rounded-full transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.3)]">
               Connect with Me
             </Button>
-            <Button variant="outline" className="border-white/20 hover:bg-white/5 px-8 py-6 text-lg rounded-full transition-all">
-              View Projects
+           <Button 
+              variant="outline" 
+              onClick={() => window.dispatchEvent(new CustomEvent('openSkillsModal'))}
+              className="border-white/20 hover:bg-white/5 px-8 py-6 text-lg rounded-full transition-all"
+            >
+              Expertise
             </Button>
           </div>
         </div>

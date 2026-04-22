@@ -1,23 +1,36 @@
+// Inside app/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import ContactModal from "@/components/ContactModal";
+import SkillsModal from "@/components/SkillsModal";
+import ResumeModal from "@/components/ResumeModal"; // 1. Import
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isSkillsOpen, setIsSkillsOpen] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false); // 2. State
+
+  useEffect(() => {
+    const handleOpenSkills = () => setIsSkillsOpen(true);
+    window.addEventListener('openSkillsModal', handleOpenSkills);
+    return () => window.removeEventListener('openSkillsModal', handleOpenSkills);
+  }, []);
 
   return (
     <main className="min-h-screen bg-[#212121] text-slate-50 font-sans relative overflow-hidden">
-      {/* Light Leak background */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_20%,_rgba(255,255,255,0.02)_0%,_transparent_50%)] pointer-events-none"></div>
+      {/* ... existing code ... */}
       
-      <Navbar />
-      <Hero onConnect={() => setIsModalOpen(true)} />
+      <Navbar onResumeClick={() => setIsResumeOpen(true)} /> {/* 3. Pass prop */}
+      <Hero onConnect={() => setIsContactOpen(true)} />
       <About />
-      <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <SkillsModal isOpen={isSkillsOpen} onClose={() => setIsSkillsOpen(false)} />
+      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} /> {/* 4. Add component */}
     </main>
   );
 }
